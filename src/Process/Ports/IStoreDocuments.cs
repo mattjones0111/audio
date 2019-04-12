@@ -1,4 +1,4 @@
-﻿namespace Process.Infrastructure
+﻿namespace Process.Ports
 {
     using System.Threading.Tasks;
     using Domain.Bases;

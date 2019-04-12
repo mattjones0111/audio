@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Domain.Bases;
-    using Infrastructure;
+    using Ports;
 
     public class DocumentStore : IStoreDocuments
     {

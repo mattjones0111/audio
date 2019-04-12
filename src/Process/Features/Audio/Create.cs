@@ -4,8 +4,8 @@
     using System.Threading.Tasks;
     using Domain.AudioItem;
     using FluentValidation;
-    using Infrastructure;
     using Pipeline;
+    using Ports;
 
     public class Create
     {
