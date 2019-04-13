@@ -26,9 +26,17 @@
 
                 RuleFor(x => x.Duration)
                     .Must(BeNonNegativeDuration);
+
+                RuleFor(x => x.Source)
+                    .Must(BeValidUrl);
             }
 
-            private bool BeNonNegativeDuration(TimeSpan arg)
+            bool BeValidUrl(string arg)
+            {
+                return Uri.TryCreate(arg, UriKind.Absolute, out Uri _);
+            }
+
+            bool BeNonNegativeDuration(TimeSpan arg)
             {
                 return arg >= TimeSpan.Zero;
             }
