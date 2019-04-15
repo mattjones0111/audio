@@ -15,7 +15,14 @@ namespace Process.Features.Audio
         }
 
         [HttpGet("")]
-        public async Task<ActionResult> Index() =>
-            Ok(await mediator.Send(new Index.Query()));
+        public async Task<ActionResult> Index(Index.Query query) =>
+            Ok(await mediator.Send(query ?? new Index.Query()));
+
+        [HttpDelete("")]
+        public async Task<ActionResult> Delete(Delete.Command command)
+        {
+            await mediator.Send(command);
+            return NoContent();
+        }
     }
 }
