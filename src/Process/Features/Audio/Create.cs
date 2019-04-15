@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Aspects.Audit;
     using Domain.AudioItem;
     using FluentValidation;
     using MediatR;
@@ -10,6 +11,7 @@
 
     public class Create
     {
+        [AuditDescription("Create an audio item")]
         public class Command : Pipeline.Command
         {
             public string Title { get; set; }
