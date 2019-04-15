@@ -1,5 +1,9 @@
 ﻿namespace Api
 {
+    using System;
+    using System.Reflection;
+    using MediatR;
+    using MediatR.Pipeline;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -7,6 +11,10 @@
     using Microsoft.AspNetCore.Mvc.ViewComponents;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Process;
+    using Process.Adapters.InMemory;
+    using Process.Pipeline;
+    using Process.Ports;
     using SimpleInjector;
     using SimpleInjector.Integration.AspNetCore.Mvc;
     using SimpleInjector.Lifestyles;
@@ -58,8 +66,39 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             InitializeContainer(app);
+
+            container.RegisterSingleton<IMediator, Mediator>();
+
+            Assembly[] assemblies = { typeof(IProcessLivesHere).Assembly };
+
+            container.Register(typeof(IRequestHandler<,>), assemblies);
+
+            var notificationHandlerTypes = container.GetTypesToRegister(
+                typeof(INotificationHandler<>),
+                assemblies,
+                new TypesToRegisterOptions
+                {
+                    IncludeGenericTypeDefinitions = true,
+                    IncludeComposites = false,
+                });
+            container.Collection.Register(typeof(INotificationHandler<>), notificationHandlerTypes);
+
+            container.Collection.Register(typeof(IRequestPreProcessor<>), new Type[] { });
+            container.Collection.Register(typeof(IRequestPostProcessor<,>), new Type[] { });
+
+            container.Collection.Register(typeof(IPipelineBehavior<,>), new[]
+            {
+                typeof(RequestPreProcessorBehavior<,>),
+                typeof(RequestPostProcessorBehavior<,>),
+                typeof(FeatureBehaviour<,>)
+            });
+
+            container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
+
+            container.Register<IStoreDocuments, DocumentStore>();
+
             container.Verify();
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
