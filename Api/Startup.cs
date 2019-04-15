@@ -13,7 +13,7 @@
 
     public class Startup
     {
-        Container container = new Container();
+        readonly Container container = new Container();
     
         public Startup(IConfiguration configuration)
         {
