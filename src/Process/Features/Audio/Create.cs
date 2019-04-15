@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using Domain.AudioItem;
     using FluentValidation;
+    using MediatR;
     using Pipeline;
     using Ports;
 
@@ -61,8 +62,15 @@
 
                 await documentStore.StoreAsync(item.ToDocument());
 
-                return CommandResult.Void;
+                return CommandResult.Void
+                    .WithNotification(new AudioItemCreated
+                    {
+                    });
             }
+        }
+
+        public class AudioItemCreated : INotification
+        {
         }
     }
 }

@@ -14,6 +14,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Process;
     using Process.Adapters.InMemory;
+    using Process.Aspects.Notifications;
     using Process.Pipeline;
     using Process.Ports;
     using SimpleInjector;
@@ -85,7 +86,7 @@
             container.Collection.Register(typeof(INotificationHandler<>), notificationHandlerTypes);
 
             container.Collection.Register(typeof(IRequestPreProcessor<>), new Type[] { });
-            container.Collection.Register(typeof(IRequestPostProcessor<,>), new Type[] { });
+            container.Collection.Register(typeof(IRequestPostProcessor<,>), new[] { typeof(Sender<,>) });
 
             container.Collection.Register(typeof(IPipelineBehavior<,>), new[]
             {
