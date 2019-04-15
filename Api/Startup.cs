@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+    using FluentValidation;
     using MediatR;
     using MediatR.Pipeline;
     using Microsoft.AspNetCore.Builder;
@@ -90,12 +91,15 @@
             {
                 typeof(RequestPreProcessorBehavior<,>),
                 typeof(RequestPostProcessorBehavior<,>),
-                typeof(FeatureBehaviour<,>)
+                typeof(FeatureBehavior<,>)
             });
 
             container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
 
             container.Register<IStoreDocuments, DocumentStore>();
+
+            // validation
+            container.Collection.Register(typeof(IValidator<>), assemblies);
 
             container.Verify();
 
