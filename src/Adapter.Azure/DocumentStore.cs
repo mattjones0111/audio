@@ -1,11 +1,11 @@
 ﻿namespace Adapter.Azure
 {
-    using System.Threading.Tasks;
     using Domain.Bases;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Newtonsoft.Json;
     using Process.Ports;
+    using System.Threading.Tasks;
 
     public class DocumentStore : IStoreDocuments
     {
@@ -39,10 +39,19 @@
             await blob.UploadTextAsync(json);
         }
 
-        public Task<TDocument> GetAsync<TDocument>(string id)
+        public async Task<TDocument> GetAsync<TDocument>(string id)
             where TDocument : AggregateState
         {
-            throw new System.NotImplementedException();
+            string key = $"{typeof(TDocument).FullName}-{id}";
+
+            CloudBlobContainer container = client
+                .GetContainerReference(containerName);
+
+            CloudBlockBlob blob = container.GetBlockBlobReference(key);
+
+            string json = await blob.DownloadTextAsync();
+
+            return JsonConvert.DeserializeObject<TDocument>(json);
         }
     }
 }

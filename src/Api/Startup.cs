@@ -13,9 +13,11 @@
     using Microsoft.AspNetCore.Mvc.ViewComponents;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Middleware;
     using Process;
     using Process.Aspects.Notifications;
     using Process.Pipeline;
+    using Process.Ports;
     using SimpleInjector;
     using SimpleInjector.Integration.AspNetCore.Mvc;
     using SimpleInjector.Lifestyles;
@@ -96,13 +98,15 @@
 
             container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
 
-            container.Register(() =>
+            container.Register<IStoreDocuments>(() =>
                 new DocumentStore("UseDevelopmentStorage=true", "documents"));
 
             // validation
             container.Collection.Register(typeof(IValidator<>), assemblies);
 
             container.Verify();
+
+            app.UseExceptionHandlingMiddleware();
 
             if (env.IsDevelopment())
             {
