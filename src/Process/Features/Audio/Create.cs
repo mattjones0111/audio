@@ -67,12 +67,16 @@
                 return CommandResult.Void
                     .WithNotification(new AudioItemCreated
                     {
+                        Title = command.Title,
+                        Duration = (long)command.Duration.TotalMilliseconds
                     });
             }
         }
 
         public class AudioItemCreated : INotification
         {
+            public string Title { get; set; }
+            public long Duration { get; set; }
         }
     }
 }
