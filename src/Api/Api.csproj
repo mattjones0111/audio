@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Process\Process.csproj" />
+      <ProjectReference Include="..\Process\Process.csproj" />
     </ItemGroup>
 
 </Project>

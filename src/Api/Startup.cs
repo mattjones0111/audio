@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+    using Adapter.Azure;
     using FluentValidation;
     using MediatR;
     using MediatR.Pipeline;
@@ -13,10 +14,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Process;
-    using Process.Adapters.InMemory;
     using Process.Aspects.Notifications;
     using Process.Pipeline;
-    using Process.Ports;
     using SimpleInjector;
     using SimpleInjector.Integration.AspNetCore.Mvc;
     using SimpleInjector.Lifestyles;
@@ -97,7 +96,8 @@
 
             container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
 
-            container.Register<IStoreDocuments, DocumentStore>();
+            container.Register(() =>
+                new DocumentStore("UseDevelopmentStorage=true", "documents"));
 
             // validation
             container.Collection.Register(typeof(IValidator<>), assemblies);
