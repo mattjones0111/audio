@@ -1,5 +1,6 @@
 ﻿namespace Process.Pipeline
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -36,7 +37,18 @@
                 throw new FeatureValidationException(failures);
             }
 
-            return await next();
+            try
+            {
+                TResponse response = await next();
+
+                return response;
+            }
+            catch(Exception ex)
+            {
+                // TODO log the error
+
+                throw;
+            }
         }
     }
 }
