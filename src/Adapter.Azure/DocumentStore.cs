@@ -29,9 +29,10 @@
 
             await container.CreateIfNotExistsAsync();
 
-            string key = $"{typeof(TDocument).Name}:{document.Id}";
+            string key = $"{typeof(TDocument).FullName}-{document.Id}";
 
             CloudBlockBlob blob = container.GetBlockBlobReference(key);
+            blob.Properties.ContentType = "application/json";
 
             string json = JsonConvert.SerializeObject(document);
 

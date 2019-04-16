@@ -16,16 +16,14 @@
             this.mediator = mediator;
         }
 
-        public Task Process(TRequest request, TResponse response)
+        public async Task Process(TRequest request, TResponse response)
         {
             if(response is CommandResult commandResult)
             {
-                return Task.WhenAll(commandResult
+                await Task.WhenAll(commandResult
                     .GetNotifications()
-                    .Select(x => new Task(() => mediator.Publish(x))));
+                    .Select(x => mediator.Publish(x)));
             }
-
-            return Task.CompletedTask;
         }
     }
 }
