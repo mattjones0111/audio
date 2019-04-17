@@ -13,5 +13,8 @@
 
         Task DeleteAsync<TDocument>(string id)
             where TDocument : AggregateState;
+
+        Task<bool> ExistsAsync<TDocument>(string id)
+            where TDocument : AggregateState;
     }
 }

@@ -6,10 +6,7 @@
     {
         public static void IsNotNullOrEmpty(string value, string paramName)
         {
-            if(value == null)
-            {
-                throw new ArgumentNullException(paramName);
-            }
+            IsNotNull(value, paramName);
 
             if(string.IsNullOrEmpty(value))
             {
@@ -25,6 +22,24 @@
             {
                 throw new ArgumentException(
                     $"'{paramName}' must be a non-negative TimeSpan.",
+                    paramName);
+            }
+        }
+
+        public static void IsNotNull(object o, string paramName)
+        {
+            if(o == null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
+        }
+
+        public static void IsNonNegativeInteger(long value, string paramName)
+        {
+            if(value < 0)
+            {
+                throw new ArgumentException(
+                    $"'{paramName}' must be a non-negative integer.",
                     paramName);
             }
         }

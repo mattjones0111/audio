@@ -66,5 +66,18 @@
 
             await blob.DeleteIfExistsAsync();
         }
+
+        public async Task<bool> ExistsAsync<TDocument>(string id)
+            where TDocument : AggregateState
+        {
+            string key = $"{typeof(TDocument).FullName}-{id}";
+
+            CloudBlobContainer container = client
+                .GetContainerReference(containerName);
+
+            CloudBlockBlob blob = container.GetBlockBlobReference(key);
+
+            return await blob.ExistsAsync();
+        }
     }
 }

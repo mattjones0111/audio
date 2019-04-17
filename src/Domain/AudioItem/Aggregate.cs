@@ -20,5 +20,10 @@
                 Categories = categories
             };
         }
+
+        public Aggregate(State state) : base(state)
+        {
+            Ensure.IsNotNull(state, nameof(state));
+        }
     }
 }

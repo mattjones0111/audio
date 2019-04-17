@@ -16,6 +16,7 @@
     using Process;
     using Process.Adapters.InMemory;
     using Process.Aspects.Notifications;
+    using Process.Infrastructure;
     using Process.Pipeline;
     using Process.Ports;
     using SimpleInjector;
@@ -120,6 +121,11 @@
 
             // validation
             container.Collection.Register(typeof(IValidator<>), assemblies);
+
+            container.RegisterInitializer<ApiController>(controller =>
+            {
+                controller.Mediator = container.GetInstance<IMediator>();
+            });
 
             container.Verify();
 

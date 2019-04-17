@@ -42,7 +42,8 @@
             return Task.FromResult(docResult);
         }
 
-        public Task DeleteAsync<TDocument>(string id) where TDocument : AggregateState
+        public Task DeleteAsync<TDocument>(string id)
+            where TDocument : AggregateState
         {
             if(innerDict.ContainsKey(id))
             {
@@ -50,6 +51,12 @@
             }
 
             return Task.CompletedTask;
+        }
+
+        public Task<bool> ExistsAsync<TDocument>(string id)
+            where TDocument : AggregateState
+        {
+            return Task.FromResult(innerDict.ContainsKey(id));
         }
     }
 }
