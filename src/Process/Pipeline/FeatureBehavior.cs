@@ -43,7 +43,7 @@
 
                 return response;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 // TODO log the error
 

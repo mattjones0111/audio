@@ -36,16 +36,17 @@
 
                 await context.Response.WriteAsync(exception.Message);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 if (context.Response.HasStarted)
                 {
                     throw;
                 }
 
+                int code = (int) HttpStatusCode.InternalServerError;
+
                 context.Response.Clear();
-                context.Response.StatusCode =
-                    (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = code;
 
                 await context.Response.WriteAsync(
                     "An internal server error occurred.");

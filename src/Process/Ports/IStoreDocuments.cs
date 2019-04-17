@@ -10,5 +10,8 @@
 
         Task<TDocument> GetAsync<TDocument>(string id)
             where TDocument : AggregateState;
+
+        Task DeleteAsync<TDocument>(string id)
+            where TDocument : AggregateState;
     }
 }

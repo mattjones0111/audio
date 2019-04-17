@@ -53,5 +53,18 @@
 
             return JsonConvert.DeserializeObject<TDocument>(json);
         }
+
+        public async Task DeleteAsync<TDocument>(string id)
+            where TDocument : AggregateState
+        {
+            string key = $"{typeof(TDocument).FullName}-{id}";
+
+            CloudBlobContainer container = client
+                .GetContainerReference(containerName);
+
+            CloudBlockBlob blob = container.GetBlockBlobReference(key);
+
+            await blob.DeleteIfExistsAsync();
+        }
     }
 }

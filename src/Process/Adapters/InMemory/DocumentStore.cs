@@ -41,5 +41,15 @@
 
             return Task.FromResult(docResult);
         }
+
+        public Task DeleteAsync<TDocument>(string id) where TDocument : AggregateState
+        {
+            if(innerDict.ContainsKey(id))
+            {
+                innerDict.Remove(id);
+            }
+
+            return Task.CompletedTask;
+        }
     }
 }
