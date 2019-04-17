@@ -21,6 +21,7 @@
     using SimpleInjector;
     using SimpleInjector.Integration.AspNetCore.Mvc;
     using SimpleInjector.Lifestyles;
+    using Swashbuckle.AspNetCore.Swagger;
     using DocumentStore = Adapter.Azure.DocumentStore;
 
     public class Startup
@@ -36,6 +37,12 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Audio", Version = "v1" });
+                c.SchemaRegistryOptions.SchemaIdSelector = type => type.FullName;
+            });
+
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -69,6 +76,13 @@
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Audio Api v1");
+            });
+
             InitializeContainer(app);
 
             container.RegisterSingleton<IMediator, Mediator>();

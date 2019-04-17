@@ -15,7 +15,6 @@
         public class Command : Pipeline.Command
         {
             public string Title { get; set; }
-            public TimeSpan Duration { get; set; }
             public string[] Categories { get; set; }
             public string Source { get; set; }
         }
@@ -27,9 +26,6 @@
                 RuleFor(x => x.Title)
                     .NotEmpty();
 
-                RuleFor(x => x.Duration)
-                    .Must(BeNonNegativeDuration);
-
                 RuleFor(x => x.Source)
                     .Must(BeValidUrl);
             }
@@ -37,11 +33,6 @@
             bool BeValidUrl(string arg)
             {
                 return Uri.TryCreate(arg, UriKind.Absolute, out Uri _);
-            }
-
-            bool BeNonNegativeDuration(TimeSpan arg)
-            {
-                return arg >= TimeSpan.Zero;
             }
         }
 
@@ -57,9 +48,11 @@
             protected override async Task<CommandResult> HandleImpl(
                 Command command)
             {
+                TimeSpan timespan = TimeSpan.FromMinutes(3.5);
+
                 Aggregate item = new Aggregate(
                     command.Title,
-                    command.Duration,
+                    timespan,
                     command.Categories);
 
                 await documentStore.StoreAsync(item.ToDocument());
@@ -68,7 +61,7 @@
                     .WithNotification(new AudioItemCreated
                     {
                         Title = command.Title,
-                        Duration = (long)command.Duration.TotalMilliseconds
+                        Duration = (long)timespan.TotalMilliseconds
                     });
             }
         }
