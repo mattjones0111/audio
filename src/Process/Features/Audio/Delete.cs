@@ -7,7 +7,6 @@
     {
         public class Command : Pipeline.Command
         {
-
         }
 
         public class Handler : CommandHandler<Command>

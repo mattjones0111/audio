@@ -1,11 +1,12 @@
 namespace Process.Features.Health
 {
     using System.Threading.Tasks;
+    using Infrastructure;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/health")]
-    public class Controller : ControllerBase
+    public class Controller : ApiController
     {
         readonly IMediator mediator;
 
@@ -16,6 +17,6 @@ namespace Process.Features.Health
 
         [HttpGet("")]
         public async Task<ActionResult> Index(Index.Query query) =>
-            Ok(await mediator.Send(query ?? new Index.Query()));
+            await Ok(mediator.Send(query ?? new Index.Query()));
     }
 }

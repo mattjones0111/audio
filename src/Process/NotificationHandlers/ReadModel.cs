@@ -15,11 +15,11 @@
             this.tableStore = tableStore;
         }
 
-        public async Task Handle(
+        public Task Handle(
             Create.AudioItemCreated notification,
             CancellationToken cancellationToken)
         {
-            await tableStore.Insert("audio-read", notification);
+            return Task.CompletedTask;
         }
     }
 }
