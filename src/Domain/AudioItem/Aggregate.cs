@@ -23,9 +23,9 @@
 
         public Aggregate(State state) : base(state)
         {
-            Markers = new Markers(state.Markers);
+            Markers = new CollectionOfMarkers(state.Markers);
         }
 
-        public Markers Markers { get; }
+        public CollectionOfMarkers Markers { get; }
     }
 }
