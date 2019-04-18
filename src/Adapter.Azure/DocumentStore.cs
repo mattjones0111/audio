@@ -34,7 +34,9 @@
             CloudBlockBlob blob = container.GetBlockBlobReference(key);
             blob.Properties.ContentType = "application/json";
 
-            string json = JsonConvert.SerializeObject(document);
+            string json = JsonConvert.SerializeObject(
+                document,
+                DocumentSerialization.Settings);
 
             await blob.UploadTextAsync(json);
         }
@@ -51,7 +53,9 @@
 
             string json = await blob.DownloadTextAsync();
 
-            return JsonConvert.DeserializeObject<TDocument>(json);
+            return JsonConvert.DeserializeObject<TDocument>(
+                json,
+                DocumentSerialization.Settings);
         }
 
         public async Task DeleteAsync<TDocument>(string id)
