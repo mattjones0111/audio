@@ -10,5 +10,9 @@
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] Add.Command command) =>
             await NoContent(Mediator.Send(command));
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromBody] Delete.Command command) =>
+            await NoContent(Mediator.Send(command));
     }
 }
