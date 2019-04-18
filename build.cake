@@ -2,6 +2,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var solution = "Audio.sln";
 
 // define directories
 var buildDir = Directory("./src/Api/bin") + Directory(configuration);
@@ -9,7 +10,9 @@ var buildDir = Directory("./src/Api/bin") + Directory(configuration);
 Task("Clean")
     .Does(() =>
 {
-    CleanDirectory(buildDir);
+    foreach (var project in ParseSolution(solution).Projects) {
+        DotNetCoreClean(project.Path.ToString());
+    }
 });
 
 Task("Restore-NuGet-Packages")
@@ -23,7 +26,11 @@ Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    DotNetCoreBuild("./Audio.sln");
+    DotNetCoreBuild(
+        "./Audio.sln",
+        new DotNetCoreBuildSettings {
+            Configuration = configuration
+        });
 });
 
 Task("Run-Unit-Tests")
@@ -33,7 +40,12 @@ Task("Run-Unit-Tests")
     var projectFiles = GetFiles("./tests/**/*.csproj");
     foreach(var file in projectFiles)
     {
-        DotNetCoreTest(file.FullPath);
+        DotNetCoreTest(
+            file.FullPath,
+            new DotNetCoreTestSettings {
+                Configuration = configuration,
+                NoBuild = true
+            });
     }
 });
 
