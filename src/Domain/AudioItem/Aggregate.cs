@@ -1,6 +1,8 @@
 ﻿namespace Domain.AudioItem
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Bases;
     using Utilities;
 
@@ -23,7 +25,33 @@
 
         public Aggregate(State state) : base(state)
         {
-            Ensure.IsNotNull(state, nameof(state));
+            Markers = new Markers(state.Markers);
+        }
+
+        public Markers Markers { get; }
+    }
+
+    public class Markers
+    {
+        readonly List<MarkerState> state;
+
+        public Markers(List<MarkerState> state)
+        {
+            this.state = state;
+        }
+
+        public void Add(string name, long offset)
+        {
+            if(state.Any(x =>
+                x.Offset == offset &&
+                string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                throw new Exception(
+                    "Marker collection already contains a " +
+                    $"marker with name '{name}' at offset {offset}.");
+            }
+
+            state.Add(new MarkerState { Name = name, Offset = offset });
         }
     }
 }

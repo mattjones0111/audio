@@ -129,8 +129,6 @@
 
             container.Verify();
 
-            app.UseExceptionHandlingMiddleware();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -139,6 +137,8 @@
             {
                 app.UseHsts();
             }
+
+            app.UseExceptionHandlingMiddleware();
 
             app.UseHttpsRedirection();
             app.UseMvc();
