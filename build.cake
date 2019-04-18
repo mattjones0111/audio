@@ -1,4 +1,5 @@
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+#tool "nuget:?package=NUnit.ConsoleRunner&version=3.4.0"
+#tool "nuget:?package=xunit.runner.console"
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
@@ -30,7 +31,11 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    Information("// TODO Implement XUnit tests.");
+    var projectFiles = GetFiles("./tests/**/*.csproj");
+    foreach(var file in projectFiles)
+    {
+        DotNetCoreTest(file.FullPath);
+    }
 });
 
 Task("Default")

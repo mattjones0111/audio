@@ -2,16 +2,17 @@ namespace Integration.Tests
 {
     using System;
     using System.Reflection;
-    using Adapter.Azure;
     using FluentValidation;
     using MediatR;
     using MediatR.Pipeline;
     using Process;
+    using Process.Adapters.InMemory;
     using Process.Aspects.Notifications;
     using Process.Pipeline;
     using Process.Ports;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
+    using DocumentStore = Adapter.Azure.DocumentStore;
 
     public class IntegrationTest
     {
@@ -52,6 +53,8 @@ namespace Integration.Tests
 
             container.Register<IStoreDocuments>(() =>
                 new DocumentStore("UseDevelopmentStorage=true", "documents"));
+
+            container.Register<IStoreTabularData, TableStore>();
 
             // validation
             container.Collection.Register(typeof(IValidator<>), assemblies);
