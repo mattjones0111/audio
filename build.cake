@@ -1,4 +1,3 @@
-#tool "nuget:?package=NUnit.ConsoleRunner&version=3.4.0"
 #tool "nuget:?package=xunit.runner.console"
 
 var target = Argument("target", "Default");
@@ -17,7 +16,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./Audio.sln");
+    DotNetCoreRestore();
 });
 
 Task("Build")
