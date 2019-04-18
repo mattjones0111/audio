@@ -11,8 +11,8 @@
         public async Task<ActionResult> Add([FromBody] Add.Command command) =>
             await NoContent(Mediator.Send(command));
 
-        [HttpDelete]
-        public async Task<ActionResult> Delete([FromBody] Delete.Command command) =>
+        [HttpDelete("{offset}/{name}")]
+        public async Task<ActionResult> Delete([FromQuery] Delete.Command command) =>
             await NoContent(Mediator.Send(command));
     }
 }

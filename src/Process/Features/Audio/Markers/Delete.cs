@@ -1,7 +1,9 @@
 ﻿namespace Process.Features.Audio.Markers
 {
     using System.Threading.Tasks;
+    using Domain.AudioItem;
     using Pipeline;
+    using Ports;
 
     public class Delete
     {
@@ -14,9 +16,24 @@
 
         public class Handler : CommandHandler<Command>
         {
-            protected override Task<CommandResult> HandleImpl(Command command)
+            readonly IStoreDocuments documentStore;
+
+            public Handler(IStoreDocuments documentStore)
             {
-                throw new System.NotImplementedException();
+                this.documentStore = documentStore;
+            }
+
+            protected override async Task<CommandResult> HandleImpl(Command command)
+            {
+                State state = await documentStore.GetAsync<State>(command.Id);
+
+                Aggregate aggregate = new Aggregate(state);
+
+                aggregate.Markers.Delete(command.Name, command.Offset);
+
+                await documentStore.StoreAsync(aggregate.ToDocument());
+
+                return CommandResult.Void;
             }
         }
     }
