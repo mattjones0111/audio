@@ -18,7 +18,9 @@
 
         public async Task Process(TRequest request, TResponse response)
         {
-            if(response is CommandResult commandResult)
+            CommandResult commandResult = response as CommandResult;
+
+            if(commandResult != null)
             {
                 await Task.WhenAll(commandResult
                     .GetNotifications()
