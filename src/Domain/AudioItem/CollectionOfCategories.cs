@@ -8,9 +8,9 @@
     {
         readonly List<string> list;
 
-        public CollectionOfCategories(IEnumerable<string> categories)
+        public CollectionOfCategories(List<string> categories)
         {
-            list = categories.ToList();
+            list = categories;
         }
 
         public void Add(string category)

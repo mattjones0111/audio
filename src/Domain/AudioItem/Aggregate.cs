@@ -1,6 +1,7 @@
 ﻿namespace Domain.AudioItem
 {
     using System;
+    using System.Linq;
     using Bases;
     using Utilities;
 
@@ -21,7 +22,7 @@
                 Id = id.ToString(),
                 Title = title,
                 Duration = duration,
-                Categories = categories
+                Categories = categories.ToList()
             };
         }
 

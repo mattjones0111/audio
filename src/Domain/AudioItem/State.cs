@@ -8,13 +8,13 @@
     {
         public State()
         {
-            Categories = Array.Empty<string>();
+            Categories = new List<string>();
             Markers = new List<MarkerState>();
         }
 
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }
-        public string[] Categories { get; set; }
+        public List<string> Categories { get; set; }
         public List<MarkerState> Markers { get; set; }
     }
 
