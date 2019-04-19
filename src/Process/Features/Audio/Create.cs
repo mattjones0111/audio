@@ -14,6 +14,7 @@
         [AuditDescription("Create an audio item")]
         public class Command : Pipeline.Command
         {
+            public Guid Id { get; set; }
             public string Title { get; set; }
             public string[] Categories { get; set; }
             public string Source { get; set; }
@@ -23,6 +24,9 @@
         {
             public Validator()
             {
+                RuleFor(x => x.Id)
+                    .NotEmpty();
+
                 RuleFor(x => x.Title)
                     .NotEmpty();
 
@@ -51,6 +55,7 @@
                 TimeSpan timespan = TimeSpan.FromMinutes(3.5);
 
                 Aggregate item = new Aggregate(
+                    command.Id,
                     command.Title,
                     timespan,
                     command.Categories);

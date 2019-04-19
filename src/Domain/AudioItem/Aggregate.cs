@@ -6,7 +6,11 @@
 
     public class Aggregate : AggregateRoot<State>
     {
-        public Aggregate(string title, TimeSpan duration, string[] categories)
+        public Aggregate(
+            Guid id,
+            string title,
+            TimeSpan duration,
+            string[] categories)
             : base(new State())
         {
             Ensure.IsNotNullOrEmpty(title, nameof(title));
@@ -14,7 +18,7 @@
 
             State = new State
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = id.ToString(),
                 Title = title,
                 Duration = duration,
                 Categories = categories
