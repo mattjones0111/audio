@@ -31,6 +31,15 @@ namespace Integration.Tests
             };
 
             await Mediator().Send(addMarker);
+
+            Process.Features.Audio.Categories.Add.Command addCategory = 
+                new Process.Features.Audio.Categories.Add.Command
+                {
+                    Id = newAggregateId.ToString(),
+                    Category = "/songs/a-list",
+                };
+
+            await Mediator().Send(addCategory);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Process.Features.Audio.Categories
 {
     using System.Threading.Tasks;
+    using Aspects.Audit;
     using Domain.AudioItem;
     using FluentValidation;
     using Pipeline;
@@ -8,6 +9,7 @@
 
     public class Add
     {
+        [AuditDescription("Add a category to an audio item")]
         public class Command : Pipeline.Command
         {
             public string Id { get; set; }
