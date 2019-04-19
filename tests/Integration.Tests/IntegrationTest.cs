@@ -12,7 +12,6 @@ namespace Integration.Tests
     using Process.Ports;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-    using DocumentStore = Adapter.Azure.DocumentStore;
 
     public class IntegrationTest
     {
@@ -51,8 +50,7 @@ namespace Integration.Tests
 
             container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
 
-            container.Register<IStoreDocuments>(() =>
-                new DocumentStore("UseDevelopmentStorage=true", "documents"));
+            container.RegisterSingleton<IStoreDocuments, DocumentStore>();
 
             container.Register<IStoreTabularData, TableStore>();
 
