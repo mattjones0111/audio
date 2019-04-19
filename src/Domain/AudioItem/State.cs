@@ -8,6 +8,7 @@
     {
         public State()
         {
+            Categories = Array.Empty<string>();
             Markers = new List<MarkerState>();
         }
 

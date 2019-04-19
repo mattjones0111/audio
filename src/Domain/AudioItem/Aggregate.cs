@@ -28,8 +28,11 @@
         public Aggregate(State state) : base(state)
         {
             Markers = new CollectionOfMarkers(state.Markers);
+            Categories = new CollectionOfCategories(state.Categories);
         }
 
         public CollectionOfMarkers Markers { get; }
+
+        public CollectionOfCategories Categories { get; }
     }
 }
