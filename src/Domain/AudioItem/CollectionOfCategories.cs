@@ -11,5 +11,9 @@
         {
             list = categories.ToList();
         }
+
+        public void Add(string category)
+        {
+        }
     }
 }
