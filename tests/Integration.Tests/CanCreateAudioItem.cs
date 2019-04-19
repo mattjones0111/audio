@@ -11,11 +11,11 @@ namespace Integration.Tests
         [Fact]
         public async Task Test()
         {
-            Guid newAggregateId = Guid.NewGuid();
+            Guid id = Guid.NewGuid();
 
             Create.Command command = new Create.Command
             {
-                Id = newAggregateId,
+                Id = id,
                 Categories = new[] { "/songs/recurrent" },
                 Source = "http://www.audio.com/1.wav",
                 Title = "Test audio"
@@ -25,7 +25,7 @@ namespace Integration.Tests
 
             Add.Command addMarker = new Add.Command
             {
-                Id = newAggregateId,
+                Id = id,
                 Name = "marker 1",
                 Offset = 123
             };
@@ -35,7 +35,7 @@ namespace Integration.Tests
             Process.Features.Audio.Categories.Add.Command addCategory = 
                 new Process.Features.Audio.Categories.Add.Command
                 {
-                    Id = newAggregateId.ToString(),
+                    Id = id.ToString(),
                     Category = "/songs/a-list",
                 };
 

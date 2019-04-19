@@ -24,10 +24,16 @@ namespace Integration.Tests
 
             container.RegisterSingleton<IMediator, Mediator>();
 
+            container.Register(
+                () => new ServiceFactory(container.GetInstance),
+                Lifestyle.Singleton);
+
             Assembly[] assemblies = { typeof(IProcessLivesHere).Assembly };
 
+            // handlers
             container.Register(typeof(IRequestHandler<,>), assemblies);
 
+            // notifications
             var notificationHandlerTypes = container.GetTypesToRegister(
                 typeof(INotificationHandler<>),
                 assemblies,
@@ -36,11 +42,23 @@ namespace Integration.Tests
                     IncludeGenericTypeDefinitions = true,
                     IncludeComposites = false,
                 });
-            container.Collection.Register(typeof(INotificationHandler<>), notificationHandlerTypes);
 
-            container.Collection.Register(typeof(IRequestPreProcessor<>), new Type[] { });
-            container.Collection.Register(typeof(IRequestPostProcessor<,>), new[] { typeof(Sender<,>) });
+            // notification handlers
+            container.Collection.Register(
+                typeof(INotificationHandler<>),
+                notificationHandlerTypes);
 
+            // pre-processors
+            container.Collection.Register(
+                typeof(IRequestPreProcessor<>),
+                new Type[] { });
+
+            // post processors
+            container.Collection.Register(
+                typeof(IRequestPostProcessor<,>),
+                new[] { typeof(Sender<,>) });
+
+            // pipeline behaviors
             container.Collection.Register(typeof(IPipelineBehavior<,>), new[]
             {
                 typeof(RequestPreProcessorBehavior<,>),
@@ -48,8 +66,7 @@ namespace Integration.Tests
                 typeof(FeatureBehavior<,>)
             });
 
-            container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
-
+            // other services
             container.RegisterSingleton<IStoreDocuments, DocumentStore>();
 
             container.Register<IStoreTabularData, TableStore>();
