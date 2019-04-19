@@ -5,6 +5,7 @@
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
+    using Aspects.Audit;
     using Aspects.Validation;
     using Domain.AudioItem;
     using FluentValidation;
@@ -13,6 +14,7 @@
 
     public class Add
     {
+        [AuditDescription("Add a marker to an audio item")]
         public class Command : Pipeline.Command
         {
             public Guid Id { get; set; }
