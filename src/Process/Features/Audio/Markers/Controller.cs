@@ -12,7 +12,7 @@
             await NoContent(Mediator.Send(command));
 
         [HttpDelete("{offset}/{name}")]
-        public async Task<ActionResult> Delete([FromQuery] Delete.Command command) =>
+        public async Task<ActionResult> Delete([FromQuery] Remove.Command command) =>
             await NoContent(Mediator.Send(command));
     }
 }

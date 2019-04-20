@@ -5,7 +5,7 @@
     using Pipeline;
     using Ports;
 
-    public class Delete
+    public class Remove
     {
         public class Command : Pipeline.Command
         {

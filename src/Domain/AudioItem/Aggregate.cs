@@ -8,7 +8,7 @@
     public class Aggregate : AggregateRoot<State>
     {
         public Aggregate(
-            Guid id,
+            string id,
             string title,
             TimeSpan duration,
             string[] categories)
@@ -19,7 +19,7 @@
 
             State = new State
             {
-                Id = id.ToString(),
+                Id = id,
                 Title = title,
                 Duration = duration,
                 Categories = categories.ToList()

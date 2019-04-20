@@ -22,5 +22,10 @@
                 list.Add(category);
             }
         }
+
+        public void Remove(string category)
+        {
+            list.Remove(category);
+        }
     }
 }
