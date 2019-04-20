@@ -1,6 +1,7 @@
 ﻿namespace Api
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using FluentValidation;
     using MediatR;
@@ -87,24 +88,40 @@
             InitializeContainer(app);
 
             container.RegisterSingleton<IMediator, Mediator>();
+            container.Register(
+                () => new ServiceFactory(container.GetInstance),
+                Lifestyle.Singleton);
 
             Assembly[] assemblies = { typeof(IProcessLivesHere).Assembly };
 
+            // handlers
             container.Register(typeof(IRequestHandler<,>), assemblies);
 
-            var notificationHandlerTypes = container.GetTypesToRegister(
+            // notifications
+            IEnumerable<Type> notificationHandlerTypes = container
+                .GetTypesToRegister(
+                    typeof(INotificationHandler<>),
+                    assemblies,
+                    new TypesToRegisterOptions
+                    {
+                        IncludeGenericTypeDefinitions = true,
+                        IncludeComposites = false,
+                    });
+
+            container.Collection.Register(
                 typeof(INotificationHandler<>),
-                assemblies,
-                new TypesToRegisterOptions
-                {
-                    IncludeGenericTypeDefinitions = true,
-                    IncludeComposites = false,
-                });
-            container.Collection.Register(typeof(INotificationHandler<>), notificationHandlerTypes);
+                notificationHandlerTypes);
 
-            container.Collection.Register(typeof(IRequestPreProcessor<>), new Type[] { });
-            container.Collection.Register(typeof(IRequestPostProcessor<,>), new[] { typeof(Sender<,>) });
+            // pre and post processors
+            container.Collection.Register(
+                typeof(IRequestPreProcessor<>),
+                new Type[] { });
 
+            container.Collection.Register(
+                typeof(IRequestPostProcessor<,>),
+                new[] { typeof(Sender<,>) });
+
+            // pipeline behaviors
             container.Collection.Register(typeof(IPipelineBehavior<,>), new[]
             {
                 typeof(RequestPreProcessorBehavior<,>),
@@ -112,8 +129,7 @@
                 typeof(FeatureBehavior<,>)
             });
 
-            container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
-
+            // other services
             container.Register<IStoreDocuments>(() =>
                 new DocumentStore("UseDevelopmentStorage=true", "documents"));
 
