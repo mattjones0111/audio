@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adapter.Azure", "src\Adapter.Azure\Adapter.Azure.csproj", "{550EE1FB-CDEF-40BB-BD5A-AF5380AB76AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration.Tests", "tests\Integration.Tests\Integration.Tests.csproj", "{890C1802-F573-4246-AD7B-C2C7DB261B5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration.Tests", "tests\Integration.Tests\Integration.Tests.csproj", "{890C1802-F573-4246-AD7B-C2C7DB261B5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{22A4F974-8409-43EC-A965-972A8AB9615D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{94BEAF4D-7769-45ED-9ACB-4BD39DD7B0F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +46,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3A3788D-0A4E-41DA-A482-2E3109B7477F} = {22A4F974-8409-43EC-A965-972A8AB9615D}
+		{A94ED760-81AA-4767-8666-317F257113A3} = {22A4F974-8409-43EC-A965-972A8AB9615D}
+		{728D86A7-96AD-4B34-9B05-85FC1014C08E} = {22A4F974-8409-43EC-A965-972A8AB9615D}
+		{550EE1FB-CDEF-40BB-BD5A-AF5380AB76AF} = {22A4F974-8409-43EC-A965-972A8AB9615D}
+		{890C1802-F573-4246-AD7B-C2C7DB261B5F} = {94BEAF4D-7769-45ED-9ACB-4BD39DD7B0F5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17344C95-3236-4BD7-BD2F-3CC4E5957951}

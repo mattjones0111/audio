@@ -1,6 +1,7 @@
 ﻿namespace Process.Aspects.Notifications
 {
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
     using MediatR.Pipeline;
@@ -16,7 +17,10 @@
             this.mediator = mediator;
         }
 
-        public async Task Process(TRequest request, TResponse response)
+        public async Task Process(
+            TRequest request,
+            TResponse response,
+            CancellationToken cancellationToken)
         {
             CommandResult commandResult = response as CommandResult;
 
@@ -24,7 +28,7 @@
             {
                 await Task.WhenAll(commandResult
                     .GetNotifications()
-                    .Select(x => mediator.Publish(x)));
+                    .Select(x => mediator.Publish(x, cancellationToken)));
             }
         }
     }

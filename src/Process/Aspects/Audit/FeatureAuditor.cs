@@ -1,13 +1,17 @@
 ﻿namespace Process.Aspects.Audit
 {
     using System.Reflection;
+    using System.Threading;
     using System.Threading.Tasks;
     using MediatR.Pipeline;
 
     public class FeatureAuditor<TRequest, TResponse> :
         IRequestPostProcessor<TRequest, TResponse>
     {
-        public Task Process(TRequest request, TResponse response)
+        public Task Process(
+            TRequest request,
+            TResponse response,
+            CancellationToken cancellationToken)
         {
             AuditDescriptionAttribute attribute = request
                 .GetType()
