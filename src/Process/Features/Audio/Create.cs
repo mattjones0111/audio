@@ -17,7 +17,6 @@
             public string Id { get; set; }
             public string Title { get; set; }
             public string[] Categories { get; set; }
-            public string Source { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -29,14 +28,6 @@
 
                 RuleFor(x => x.Title)
                     .NotEmpty();
-
-                RuleFor(x => x.Source)
-                    .Must(BeValidUrl);
-            }
-
-            bool BeValidUrl(string arg)
-            {
-                return Uri.TryCreate(arg, UriKind.Absolute, out Uri _);
             }
         }
 

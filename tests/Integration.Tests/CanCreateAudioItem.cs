@@ -6,6 +6,7 @@ namespace Integration.Tests
     using Process.Features.Audio.Markers;
     using Xunit;
     using Remove = Process.Features.Audio.Categories.Remove;
+    using Process.DependencyResolution;
 
     public class CanCreateAudioItem : IntegrationTest
     {
@@ -18,7 +19,6 @@ namespace Integration.Tests
             {
                 Id = id,
                 Categories = new[] { "/songs/recurrent" },
-                Source = "http://www.audio.com/1.wav",
                 Title = "Test audio"
             };
 
