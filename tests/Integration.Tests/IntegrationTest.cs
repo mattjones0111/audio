@@ -1,11 +1,11 @@
 namespace Integration.Tests
 {
     using System;
-    using Adapter.Azure;
+    using Adapter.Azure.DependencyResolution;
     using MediatR;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Process.DependencyResolution;
-    using Process.Ports;
 
     public class IntegrationTest
     {
@@ -15,9 +15,17 @@ namespace Integration.Tests
         {
             IServiceCollection services = new ServiceCollection();
 
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            services.AddSingleton(config);
+
             services.UseFeatures();
 
-            services.AddTransient<IStoreDocuments, DocumentStore>();
+            services.UseAzureDocumentStorage(
+                "UseDevelopmentStorage=true;",
+                "documents");
 
             IServiceProvider provider = services.BuildServiceProvider();
 
