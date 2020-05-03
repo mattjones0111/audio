@@ -22,9 +22,7 @@
             TResponse response,
             CancellationToken cancellationToken)
         {
-            CommandResult commandResult = response as CommandResult;
-
-            if(commandResult != null)
+            if(response is CommandResult commandResult)
             {
                 await Task.WhenAll(commandResult
                     .GetNotifications()

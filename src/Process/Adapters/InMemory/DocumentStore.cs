@@ -32,7 +32,7 @@
         public Task<TDocument> GetAsync<TDocument>(string id)
             where TDocument : AggregateState
         {
-            TDocument docResult = default(TDocument);
+            TDocument docResult = default;
 
             if(innerDict.TryGetValue(id, out var result))
             {

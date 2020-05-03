@@ -1,6 +1,5 @@
 ﻿namespace Process.Features.Audio
 {
-    using System;
     using System.Threading.Tasks;
     using Aspects.Audit;
     using Domain.AudioItem;
@@ -43,12 +42,9 @@
             protected override async Task<CommandResult> HandleImpl(
                 Command command)
             {
-                TimeSpan timespan = TimeSpan.FromMinutes(3.5);
-
                 Aggregate item = new Aggregate(
                     command.Id,
                     command.Title,
-                    timespan,
                     command.Categories);
 
                 await documentStore.StoreAsync(item.ToDocument());
@@ -56,8 +52,7 @@
                 return CommandResult.Void
                     .WithNotification(new AudioItemCreated
                     {
-                        Title = command.Title,
-                        Duration = (long)timespan.TotalMilliseconds
+                        Title = command.Title
                     });
             }
         }
@@ -65,7 +60,6 @@
         public class AudioItemCreated : INotification
         {
             public string Title { get; set; }
-            public long Duration { get; set; }
         }
     }
 }

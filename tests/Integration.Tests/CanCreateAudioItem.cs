@@ -6,7 +6,6 @@ namespace Integration.Tests
     using Process.Features.Audio.Markers;
     using Xunit;
     using Remove = Process.Features.Audio.Categories.Remove;
-    using Process.DependencyResolution;
 
     public class CanCreateAudioItem : IntegrationTest
     {
