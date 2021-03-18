@@ -23,5 +23,17 @@
         {
             return notifications.AsReadOnly();
         }
+
+        object responseObject;
+
+        public CommandResult WithResponse(object response)
+        {
+            responseObject = response;
+            return this;
+        }
+
+        public bool HasResponse => responseObject != null;
+
+        public object Response => responseObject;
     }
 }

@@ -8,7 +8,7 @@ namespace Process.Features.Health
     public class Controller : ApiController
     {
         [HttpGet("")]
-        public async Task<ActionResult> Index(Index.Query query) =>
-            await Ok(Mediator.Send(query ?? new Index.Query()));
+        public Task<ActionResult> Index(Index.Query query) =>
+            ExecuteAsync(query ?? new Index.Query());
     }
 }

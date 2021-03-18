@@ -8,15 +8,15 @@ namespace Process.Features.Audio
     public class Controller : ApiController
     {
         [HttpGet("")]
-        public async Task<ActionResult> Index(Index.Query query) =>
-            await Ok(Mediator.Send(query ?? new Index.Query()));
+        public Task<ActionResult> Index(Index.Query query) =>
+            ExecuteAsync(query ?? new Index.Query());
 
         [HttpPost("")]
-        public async Task<ActionResult> Create(Create.Command command) =>
-            await NoContent(Mediator.Send(command));
+        public Task<ActionResult> Create(Create.Command command) =>
+            ExecuteAsync(command);
 
         [HttpDelete("")]
-        public async Task<ActionResult> Delete(Delete.Command command) =>
-            await NoContent(Mediator.Send(command));
+        public Task<ActionResult> Delete(Delete.Command command) =>
+            ExecuteAsync(command);
     }
 }

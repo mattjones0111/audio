@@ -9,15 +9,20 @@
     using FluentValidation;
     using FluentValidation.Results;
     using MediatR;
+    using Microsoft.Extensions.Logging;
 
     public class FeatureBehavior<TRequest, TResponse> :
         IPipelineBehavior<TRequest, TResponse>
     {
         readonly IEnumerable<IValidator<TRequest>> validators;
+        readonly ILogger logger;
 
-        public FeatureBehavior(IEnumerable<IValidator<TRequest>> validators)
+        public FeatureBehavior(
+            IEnumerable<IValidator<TRequest>> validators,
+            ILogger<FeatureBehavior<TRequest, TResponse>> logger)
         {
             this.validators = validators;
+            this.logger = logger;
         }
 
         public async Task<TResponse> Handle(
@@ -43,10 +48,9 @@
 
                 return response;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                // TODO log the error
-
+                logger.LogError(ex, "Exception executing feature.");
                 throw;
             }
         }

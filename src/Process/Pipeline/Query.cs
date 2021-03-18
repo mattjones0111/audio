@@ -4,6 +4,5 @@ namespace Process.Pipeline
 
     public abstract class Query<TResponse> : IRequest<TResponse>
     {
-        
     }
 }

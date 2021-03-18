@@ -8,7 +8,7 @@
     public class Controller : ApiController
     {
         [HttpPost("{category}")]
-        public async Task<ActionResult> Add([FromQuery] Add.Command command) =>
-            await NoContent(Mediator.Send(command));
+        public Task<ActionResult> Add([FromQuery] Add.Command command) =>
+            ExecuteAsync(command);
     }
 }

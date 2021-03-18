@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Http;
     using Process.Aspects.Validation;
 
+    // ReSharper disable once ClassNeverInstantiated.Global - dynamically bound
     public class ExceptionMiddleware
     {
         readonly RequestDelegate next;

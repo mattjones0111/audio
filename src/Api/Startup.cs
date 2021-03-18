@@ -1,11 +1,13 @@
 ﻿namespace Api
 {
+    using Adapter.Azure.DependencyResolution;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.OpenApi.Models;
     using Middleware;
+    using Process.DependencyResolution;
 
     public class Startup
     {
@@ -14,7 +16,7 @@
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -25,6 +27,12 @@
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Audio", Version = "v1" });
                 c.CustomSchemaIds(t => t.FullName);
             });
+
+            services.UseAzureDocumentStorage(
+                "UseDevelopmentStorage=true;",
+                "documents");
+
+            services.UseFeatures();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

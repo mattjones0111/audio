@@ -8,11 +8,11 @@
     public class Controller : ApiController
     {
         [HttpPost]
-        public async Task<ActionResult> Add([FromBody] Add.Command command) =>
-            await NoContent(Mediator.Send(command));
+        public Task<ActionResult> Add([FromBody] Add.Command command) =>
+            ExecuteAsync(command);
 
         [HttpDelete("{offset}/{name}")]
-        public async Task<ActionResult> Delete([FromQuery] Remove.Command command) =>
-            await NoContent(Mediator.Send(command));
+        public Task<ActionResult> Delete([FromQuery] Remove.Command command) =>
+            ExecuteAsync(command);
     }
 }
